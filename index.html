@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>My Love Letter</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:wght@400;600&display=swap');
+
+body {
+margin: 0;
+background: #f8f1f1 url('https://www.transparenttextures.com/patterns/paper-fibers.png');
+background-size: contain;
+font-family: 'Playfair Display', serif;
+display: flex;
+align-items: center;
+justify-content: center;
+min-height: 100vh;
+padding: 20px;
+box-sizing: border-box;
+}
+
+.envelope {
+background: #fffaf7;
+box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+border-radius: 12px;
+width: 90%;
+max-width: 720px;
+padding: 40px 50px;
+position: relative;
+border: 1px solid #f2e2d5;
+}
+
+.heart {
+position: absolute;
+top: -18px;
+left: 50%;
+transform: translateX(-50%);
+font-size: 32px;
+color: #d6336c;
+}
+
+h1 {
+text-align: center;
+font-family: 'Great Vibes', cursive;
+font-size: 40px;
+color: #c2185b;
+margin: 10px 0 20px;
+}
+
+.date {
+text-align: right;
+font-size: 14px;
+color: #9c8b8b;
+margin-bottom: 25px;
+}
+
+.letter {
+white-space: pre-wrap;
+font-size: 18px;
+line-height: 1.8;
+color: #4a3a3a;
+text-align: justify;
+}
+
+.signature {
+margin-top: 40px;
+text-align: right;
+font-family: 'Great Vibes', cursive;
+font-size: 32px;
+color: #b71c1c;
+}
+
+.buttons {
+text-align: center;
+margin-top: 40px;
+}
+
+button {
+background: #f4d0d0;
+border: none;
+border-radius: 25px;
+padding: 10px 22px;
+cursor: pointer;
+color: #5e2129;
+font-family: 'Playfair Display', serif;
+font-size: 15px;
+margin: 5px;
+box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+transition: all 0.2s ease;
+}
+button:hover {
+background: #f8bcbc;
+transform: translateY(-2px);
+}
+
+textarea {
+width: 100%;
+height: 250px;
+box-sizing: border-box;
+border: 1px solid #e8c7c7;
+border-radius: 10px;
+padding: 15px;
+font-size: 16px;
+font-family: 'Playfair Display', serif;
+display: none;
+background: #fffaf7;
+color: #4a3a3a;
+outline: none;
+}
+
+@media(max-width:600px){
+.envelope { padding: 25px 20px; }
+h1 { font-size: 32px; }
+.letter { font-size: 16px; }
+}
+</style>
+</head>
+<body>
+<div class="envelope">
+<div class="heart">❤️</div>
+<h1>My Love Letter</h1>
+<div class="date" id="date"></div>
+
+<div class="letter" id="letterText">
+<!-- ✉️ Paste your letter here later -->
+My dearest love,
+
+Words often fall short when I try to describe how I feel about you. You are the soft morning light that makes my days gentle and the calm night that keeps my soul at peace.
+
+Until I see you again, know that every heartbeat whispers your name.
+
+Forever yours,
+</div>
+
+<div class="signature">— Your Love ❤️</div>
+
+<textarea id="editor"></textarea>
+
+<div class="buttons">
+<button onclick="editLetter()">✏️ Edit Letter</button>
+<button onclick="saveLetter()">💌 Save</button>
+<button onclick="window.print()">🖨️ Print</button>
+<button onclick="downloadLetter()">⬇️ Download</button>
+</div>
+</div>
+
+<script>
+const letter = document.getElementById('letterText');
+const editor = document.getElementById('editor');
+const dateElem = document.getElementById('date');
+dateElem.textContent = new Date().toLocaleDateString(undefined, { year:'numeric', month:'long', day:'numeric' });
+
+const saved = localStorage.getItem('loveLetter');
+if(saved) letter.textContent = saved;
+
+function editLetter() {
+editor.style.display = 'block';
+letter.style.display = 'none';
+editor.value = letter.textContent.trim();
+}
+
+function saveLetter() {
+const text = editor.value.trim();
+if(!text) return;
+letter.textContent = text;
+localStorage.setItem('loveLetter', text);
+editor.style.display = 'none';
+letter.style.display = 'block';
+}
+
+function downloadLetter() {
+const text = letter.textContent;
+const blob = new Blob([text], { type: 'text/plain' });
+const url = URL.createObjectURL(blob);
+const a = document.createElement('a');
+a.href = url;
+a.download = 'love-letter.txt';
+a.click();
+URL.revokeObjectURL(url);
+}
+</script>
+</body>
+</html>
